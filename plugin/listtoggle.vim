@@ -46,7 +46,6 @@ execute "nnoremap " . s:unique . " <silent> " .
 command! QToggle call <sid>QListToggle()
 command! LToggle call <sid>LListToggle()
 
-
 function! s:LListToggle()
   if exists("s:quickfix_buffer_number")
     silent! lclose
@@ -55,11 +54,14 @@ function! s:LListToggle()
   endif
 endfunction
 
+let g:quickfix_return_to_window = 0
 
 function! s:QListToggle()
   if exists("s:quickfix_buffer_number")
     silent! cclose
+    execute g:quickfix_return_to_window . "wincmd w"
   else
+    let g:quickfix_return_to_window = winnr()
     execute "silent! botright copen " . g:lt_height
   endif
 endfunction
